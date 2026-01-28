@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power BI Portal za Učenje</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* === RESET & BASE === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* AIK Group Colors */
+            --dark-blue: #000F28;
+            --dark-blue-20: #313d52;
+            --dark-blue-40: #626c7c;
+            --dark-blue-60: #949aa5;
+            --dark-blue-80: #c5c9cf;
+            
+            --mid-blue: #266EFF;
+            --mid-blue-20: #4f89fe;
+            --mid-blue-40: #79a5fd;
+            --mid-blue-60: #a3c0fb;
+            --mid-blue-80: #cddcfa;
+            
+            --mid-gray: #D8D8DC;
+            --light-gray: #F0F1F5;
+            
+            --accent-red: #E62646;
+            --accent-green: #3CB878;
+            --accent-orange: #f6a623;
+            
+            /* Semantic colors - Light Mode */
+            --primary-color: #266EFF;
+            --text-primary: #313d52;
+            --text-secondary: #626c7c;
+            --text-muted: #949aa5;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #F0F1F5;
+            --bg-tertiary: #fafbfd;
+            
+            --border-color: #D8D8DC;
+            --border-light: #F0F1F5;
+            --border-radius: 10px;
+            --shadow-sm: 0 1px 3px rgba(0, 15, 40, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 15, 40, 0.08);
+            --shadow-lg: 0 12px 40px rgba(0, 15, 40, 0.12);
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+            line-height: 1.65;
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            min-height: 100vh;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            --text-primary: #e5e7eb;
+            --text-secondary: #c5c9cf;
+            --text-muted: #949aa5;
+            --bg-primary: #1a1f36;
+            --bg-secondary: #0f1420;
+            --bg-tertiary: #0a0e1a;
+            --border-color: #313d52;
+            --border-light: #242b3d;
+            --dark-blue-20: #242b3d;
+            --mid-blue-80: #1e3a8a;
+        }
+
+        /* === CONTAINER === */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            box-shadow: 0 0 0 1px var(--border-color);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* === HEADER === */
+        .header {
+            background: var(--dark-blue-20);
+            color: white;
+            padding: 3rem var(--spacing-xl);
+            border-bottom: 4px solid var(--mid-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .header-logo {
+            width: 70px;
+            height: 70px;
+            flex-shrink: 0;
+        }
+
+        .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        .header-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 30px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: white;
+        }
+
+        .header p {
+            font-size: 17px;
+            font-weight: 300;
+            margin: 0;
+            opacity: 0.95;
+            max-width: 800px;
+            line-height: 1.6;
+            color: #ffffff;
+        }
+
+        /* Toggle Buttons */
+        .toggle-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 70px;
+            justify-content: center;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .toggle-btn.active {
+            background: var(--mid-blue);
+            border-color: var(--mid-blue);
+        }
+
+        /* === BACK BUTTON === */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+            color: white;
+        }
+
+        .back-btn i {
+            font-size: 14px;
+        }
+
+        /* === NAVIGATION === */
+        .nav {
+            background: white;
+            border-bottom: 1px solid var(--border-light);
+            padding: 1rem var(--spacing-xl);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        body.dark-mode .nav {
+            background: rgba(26, 31, 54, 0.95);
+        }
+
+        .nav h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.625rem;
+            padding: 0;
+        }
+
+        .nav li {
+            margin: 0;
+        }
+
+        .nav a {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+
+        .nav a:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* === CONTENT === */
+        .content {
+            padding: 3.5rem var(--spacing-xl);
+            max-width: 1000px;
+        }
+
+        /* === TYPOGRAPHY === */
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            color: var(--mid-blue);
+            margin: 30px 0 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            color: var(--text-primary);
+            margin: 25px 0 12px;
+            font-weight: 600;
+        }
+
+        p {
+            margin: 16px 0;
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.65;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        a:hover {
+            color: var(--mid-blue-20);
+            border-bottom-color: var(--primary-color);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        em {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: var(--border-color);
+            margin: 30px 0;
+        }
+
+        /* === LISTS === */
+        ul, ol {
+            margin: 16px 0;
+            padding-left: 32px;
+        }
+
+        ul li, ol li {
+            margin: 12px 0;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        ul li::marker {
+            color: var(--mid-blue);
+        }
+
+        /* === CARDS & BOXES === */
+        .info-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            background: var(--mid-blue-80);
+            border-left: 5px solid var(--mid-blue);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .info-box {
+            background: rgba(38, 110, 255, 0.15);
+        }
+
+        .info-box:hover {
+            box-shadow: 0 2px 8px rgba(38, 110, 255, 0.15);
+        }
+
+        .info-box .icon {
+            font-size: 24px;
+            flex-shrink: 0;
+            line-height: 1;
+            color: var(--mid-blue);
+        }
+
+        .info-box .content {
+            flex: 1;
+        }
+
+        .info-box strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 4px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.65;
+        }
+
+        /* YouTube Video Box */
+        .video-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            background: var(--bg-secondary);
+            border-left: 5px solid #FF0000;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .video-box:hover {
+            box-shadow: 0 2px 8px rgba(230, 38, 70, 0.15);
+        }
+
+        .video-box .icon {
+            font-size: 28px;
+            flex-shrink: 0;
+            color: #FF0000;
+        }
+
+        .video-box .content {
+            flex: 1;
+        }
+
+        .video-box strong {
+            display: block;
+            font-size: 13px;
+            color: #FF0000;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .video-box .video-title {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .video-box:hover .video-title {
+            color: #FF0000;
+        }
+
+        /* === TABLES === */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 25px 0;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-primary);
+        }
+
+        table th {
+            background: var(--dark-blue-20);
+            color: white;
+            padding: 14px 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        table tbody tr:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        table tbody tr:hover {
+            background: var(--mid-blue-80);
+        }
+
+        body.dark-mode table tbody tr:hover {
+            background: rgba(38, 110, 255, 0.15);
+        }
+
+        /* === FOOTER === */
+        .footer {
+            background: var(--bg-secondary);
+            padding: 2rem var(--spacing-xl);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .header {
+                padding: 2rem 1.5rem;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .header-logo {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 1rem;
+            }
+
+            .header-content {
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .header p {
+                font-size: 15px;
+            }
+
+            .nav {
+                padding: 1rem 1.5rem;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+
+            .content {
+                padding: 2rem 1.5rem;
+            }
+
+            .footer {
+                padding: 1.5rem;
+            }
+        }
+
+        /* === SCROLL TO TOP === */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: var(--dark-blue-20);
+            color: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: all 0.2s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .scroll-top:hover {
+            background: var(--primary-color);
+        }
+ 
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-logo">
+                <img src="images/power-bi-logo.png" alt="Power BI Logo">
+            </div>
+            <div class="header-content">
+                <h1 data-sr="Microsoft Power BI" data-en="Microsoft Power BI" data-sl="Microsoft Power BI">Microsoft Power BI</h1>
+                <p data-sr="Praktično uputstvo za vizualizaciju i analizu podataka" data-en="Practical guide for data visualization and analysis" data-sl="Praktični vodič za vizualizacijo in analizo podatkov">Praktično uputstvo za vizualizaciju i analizu podataka</p>
+            </div>
+            <div class="header-controls">
+                <a href="../index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span data-sr="Nazad na Meni" data-en="Back to Menu" data-sl="Nazaj na Meni">Nazad na Meni</span>
+                </a>
+                <button class="toggle-btn" id="langToggle" onclick="toggleLanguage()">
+                    <i class="fas fa-globe"></i>
+                    <span id="langText">SRB</span>
+                </button>
+                <button class="toggle-btn" id="themeToggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav">
+            <h3 data-sr="Brzi pristup" data-en="Quick Access" data-sl="Hiter dostop">Brzi pristup</h3>
+            <ul>
+                <li><a href="#uvod" data-sr="Uvod" data-en="Introduction" data-sl="Uvod">Uvod</a></li>
+                <li><a href="#staje" data-sr="Šta je Power BI" data-en="What is Power BI" data-sl="Kaj je Power BI">Šta je Power BI</a></li>
+                <li><a href="#komponente" data-sr="Komponente" data-en="Components" data-sl="Komponente">Komponente</a></li>
+                <li><a href="#instalacija" data-sr="Instalacija" data-en="Installation" data-sl="Namestitev">Instalacija</a></li>
+                <li><a href="#ucitavanje" data-sr="Učitavanje podataka" data-en="Loading Data" data-sl="Nalaganje podatkov">Učitavanje podataka</a></li>
+                <li><a href="#power-query" data-sr="Power Query" data-en="Power Query" data-sl="Power Query">Power Query</a></li>
+                <li><a href="#modelovanje" data-sr="Modelovanje" data-en="Modeling" data-sl="Modeliranje">Modelovanje</a></li>
+                <li><a href="#vizualizacije" data-sr="Vizualizacije" data-en="Visualizations" data-sl="Vizualizacije">Vizualizacije</a></li>
+                <li><a href="#deljenje" data-sr="Deljenje izveštaja" data-en="Sharing Reports" data-sl="Deljenje poročil">Deljenje izveštaja</a></li>
+                <li><a href="#zakljucak" data-sr="Zaključak" data-en="Conclusion" data-sl="Zaključek">Zaključak</a></li>
+            </ul>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <section id="uvod">
+                <h2 data-sr="Uvod u Microsoft Power BI" 
+                    data-en="Introduction to Microsoft Power BI" 
+                    data-sl="Uvod v Microsoft Power BI">Uvod u Microsoft Power BI
+                </h2>
+                <p data-sr="<a href='https://www.microsoft.com/en-us/power-platform/products/power-bi' target='_blank'>Microsoft Power BI</a> je poslovno-analitička (Business Intelligence) platforma razvijena od strane kompanije Microsoft, namenjena organizacijama, institucijama i pojedincima koji rade sa velikim količinama podataka. Njegova osnovna svrha je da omogući efikasno prikupljanje, obradu, analizu i vizuelno predstavljanje podataka na jasan i razumljiv način." 
+                    data-en="<a href='https://www.microsoft.com/en-us/power-platform/products/power-bi' target='_blank'>Microsoft Power BI</a> is a Business Intelligence platform developed by Microsoft, designed for organizations, institutions, and individuals working with large amounts of data. Its primary purpose is to enable efficient data collection, processing, analysis, and visual presentation in a clear and understandable way." 
+                    data-sl="<a href='https://www.microsoft.com/en-us/power-platform/products/power-bi' target='_blank'>Microsoft Power BI</a> je poslovno-analitična (Business Intelligence) platforma podjetja Microsoft, namenjena organizacijam, ustanovam in posameznikom, ki delajo z velikimi količinami podatkov. Njegov osnovni namen je omogočiti učinkovito zbiranje, obdelavo, analizo in vizualno predstavitev podatkov na jasen in razumljiv način." 
+                    data-html="true"><a href="https://www.microsoft.com/en-us/power-platform/products/power-bi" target="_blank">Microsoft Power BI</a> je poslovno-analitička (Business Intelligence) platforma razvijena od strane kompanije Microsoft, namenjena organizacijama, institucijama i pojedincima koji rade sa velikim količinama podataka. Njegova osnovna svrha je da omogući efikasno prikupljanje, obradu, analizu i vizuelno predstavljanje podataka na jasan i razumljiv način.
+                </p>
+                <p data-sr="Power BI pomaže korisnicima da iz sirovih podataka izvuku ključne uvide, prepoznaju trendove, obrasce i anomalije, te donesu informisane poslovne ili akademske odluke. Zahvaljujući interaktivnim izveštajima i dashboardima, korisnici mogu da istražuju podatke u realnom vremenu, filtriraju informacije i fokusiraju se na ono što je najvažnije."
+                    data-en="Power BI helps users extract key insights from raw data, identify trends, patterns, and anomalies, and make informed business or academic decisions. hanks to interactive reports and dashboards, users can explore data in real time, filter information, and focus on what matters most."
+                    data-sl="Power BI pomaga uporabnikom pridobiti ključne vpoglede iz surovih podatkov, prepoznati trende, vzorce in anomalije ter sprejemati informirane poslovne ali akademske odločitve. Zahvaljujoč interaktivnim poročilom in nadzornim ploščam lahko uporabniki raziskujejo podatke v realnem času, filtrirajo informacije in se osredotočijo na najpomembnejše.">
+                    Power BI pomaže korisnicima da iz sirovih podataka izvuku ključne uvide, prepoznaju trendove, obrasce i anomalije, te donesu informisane poslovne ili akademske odluke. Zahvaljujući interaktivnim izveštajima i dashboardima, korisnici mogu da istražuju podatke u realnom vremenu, filtriraju informacije i fokusiraju se na ono što je najvažnije.
+                </p>
+
+
+                <p data-sr="Platforma pokriva kompletan životni ciklus analize podataka — od povezivanja sa izvorima podataka, njihove transformacije i modelovanja, pa sve do vizualizacije, deljenja i saradnje unutar timova i organizacija."
+                    data-en="The platform covers the entire data analysis lifecycle — from connecting to data sources, their transformation and modeling, to visualization, sharing, and collaboration within teams and organizations."
+                    data-sl="Platforma pokriva celoten življenjski cikel analize podatkov — od povezovanja z viri podatkov, njihove transformacije in modeliranja, do vizualizacije, deljenja in sodelovanja znotraj ekip in organizacij.">
+                    Platforma pokriva kompletan životni ciklus analize podataka — od povezivanja sa izvorima podataka, njihove transformacije i modelovanja, pa sve do vizualizacije, deljenja i saradnje unutar timova i organizacija.
+                </p>
+
+                <h3 data-sr="Ključne mogućnosti Power BI alata"
+                    data-en="Key Features of Power BI"
+                    data-sl="Ključne funkcionalnosti orodja Power BI">
+                    Ključne mogućnosti Power BI alata
+                </h3>
+                <p>
+                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/blank.png" target="_blank">
+                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/blank.png" alt="Interaktivni Power BI dashboard" style="max-width:100%;">
+                    </a>
+                </p>
+
+                <h4 data-sr="Povezivanje sa različitim izvorima podataka"
+                    data-en="Connecting to different data sources"
+                    data-sl="Povezovanje z različnimi viri podatkov">
+                    Povezivanje sa različitim izvorima podataka
+                </h4>
+
+                <p data-sr="Power BI podržava veliki broj konektora za povezivanje sa različitim izvorima podataka, uključujući:"
+                data-en="Power BI supports a large number of connectors for connecting to various data sources, including:"
+                data-sl="Power BI podpira veliko število konektorjev za povezovanje z različnimi viri podatkov, vključno z:">
+                    Power BI podržava veliki broj konektora za povezivanje sa različitim izvorima podataka, uključujući:
+                </p>
+
+                <ul>
+                    <li data-sr="Excel fajlove" data-en="Excel files" data-sl="Excel datoteke">Excel fajlove</li>
+                    <li data-sr="CSV i tekstualne fajlove" data-en="CSV and text files" data-sl="CSV in besedilne datoteke">CSV i tekstualne fajlove</li>
+                    <li data-sr="SQL Server, Oracle, MySQL i druge baze podataka"
+                        data-en="SQL Server, Oracle, MySQL and other databases"
+                        data-sl="SQL Server, Oracle, MySQL in druge baze podatkov">
+                        SQL Server, Oracle, MySQL i druge baze podataka
+                    </li>
+                    <li data-sr="SharePoint, OneDrive i cloud servise"
+                        data-en="SharePoint, OneDrive and cloud services"
+                        data-sl="SharePoint, OneDrive in oblačne storitve">
+                        SharePoint, OneDrive i cloud servise
+                    </li>
+                    <li data-sr="Web izvore i API-je"
+                        data-en="Web sources and APIs"
+                        data-sl="Spletne vire in API-je">
+                        Web izvore i API-je
+                    </li>
+                </ul>
+
+                <p data-sr="Ovo omogućava korisnicima da objedine podatke iz više sistema na jednom mestu."
+                data-en="This enables users to consolidate data from multiple systems in one place."
+                data-sl="To uporabnikom omogoča združevanje podatkov iz več sistemov na enem mestu.">
+                    Ovo omogućava korisnicima da objedine podatke iz više sistema na jednom mestu.
+                </p>
+
+                <h4 data-sr="Obrada i transformacija podataka"
+                    data-en="Data processing and transformation"
+                    data-sl="Obdelava in transformacija podatkov">
+                    Obrada i transformacija podataka
+                </h4>
+
+                <p data-sr="Korišćenjem alata Power Query, Power BI omogućava čišćenje, filtriranje, transformaciju i agregaciju podataka bez potrebe za pisanjem koda."
+                data-en="Using Power Query, Power BI enables data cleansing, filtering, transformation, and aggregation without the need for coding."
+                data-sl="Z uporabo orodja Power Query Power BI omogoča čiščenje, filtriranje, transformacijo in agregacijo podatkov brez pisanja kode.">
+                    Korišćenjem alata Power Query, Power BI omogućava čišćenje, filtriranje, transformaciju i agregaciju podataka bez potrebe za pisanjem koda.
+                </p>
+
+                <h4 data-sr="Napredna analiza pomoću DAX-a"
+                    data-en="Advanced analysis using DAX"
+                    data-sl="Napredna analiza z uporabo DAX-a">
+                    Napredna analiza pomoću DAX-a
+                </h4>
+
+                <p data-sr="Power BI koristi DAX (Data Analysis Expressions) — moćan izrazni jezik koji omogućava kreiranje kompleksnih izračuna, metrika i poslovnih pravila."
+                data-en="Power BI uses DAX (Data Analysis Expressions), a powerful expression language that enables complex calculations, metrics, and business rules."
+                data-sl="Power BI uporablja DAX (Data Analysis Expressions), zmogljiv izrazni jezik, ki omogoča kompleksne izračune, metrike in poslovna pravila.">
+                    Power BI koristi DAX (Data Analysis Expressions) — moćan izrazni jezik koji omogućava kreiranje kompleksnih izračuna, metrika i poslovnih pravila.
+                </p>
+
+                <p data-sr="DAX je posebno pogodan za analizu vremenskih serija, finansijskih pokazatelja i performansi."
+                data-en="DAX is especially suitable for time series analysis, financial indicators, and performance measurement."
+                data-sl="DAX je posebej primeren za analizo časovnih vrst, finančnih kazalnikov in uspešnosti.">
+                    DAX je posebno pogodan za analizu vremenskih serija, finansijskih pokazatelja i performansi.
+                </p>
+
+                <h4 data-sr="Kreiranje vizualizacija bez programiranja"
+                    data-en="Creating visualizations without coding"
+                    data-sl="Ustvarjanje vizualizacij brez programiranja">
+                    Kreiranje vizualizacija bez programiranja
+                </h4>
+                <p>
+                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/report.png" target="_blank">
+                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/report.png" alt="Interaktivni Power BI dashboard" style="max-width:100%;">
+                    </a>
+                </p>
+                <p data-sr="Power BI nudi WYSIWYG (What You See Is What You Get) editor koji omogućava korisnicima da jednostavnim drag & drop pristupom kreiraju profesionalne grafikone, tabele, mape i interaktivne dashboarde, bez potrebe za programerskim znanjem."
+                data-en="Power BI provides a WYSIWYG (What You See Is What You Get) editor that allows users to create professional charts, tables, maps, and interactive dashboards using a simple drag & drop approach, without programming knowledge."
+                data-sl="Power BI ponuja WYSIWYG (What You See Is What You Get) urejevalnik, ki uporabnikom omogoča ustvarjanje profesionalnih grafikonov, tabel, zemljevidov in interaktivnih nadzornih plošč s preprostim pristopom povleci in spusti, brez programerskega znanja.">
+                    Power BI nudi WYSIWYG (What You See Is What You Get) editor koji omogućava korisnicima da jednostavnim „drag & drop“ pristupom kreiraju profesionalne grafikone, tabele, mape i interaktivne dashboarde, bez potrebe za programerskim znanjem.
+                </p>
+
+                <h4 data-sr="Pristup na webu i mobilnim uređajima"
+                    data-en="Web and mobile access"
+                    data-sl="Dostop prek spleta in mobilnih naprav">
+                    Pristup na webu i mobilnim uređajima
+                </h4>
+
+                <p data-sr="Izveštaji kreirani u Power BI-ju mogu se objavljivati i deliti putem:"
+                data-en="Reports created in Power BI can be published and shared via:"
+                data-sl="Poročila, ustvarjena v Power BI-ju, je mogoče objavljati in deliti prek:">
+                    Izveštaji kreirani u Power BI-ju mogu se objavljivati i deliti putem:
+                </p>
+
+                <ul>
+                    <li data-sr="Web browsera (Power BI Service)"
+                        data-en="Web browsers (Power BI Service)"
+                        data-sl="Spletnih brskalnikov (Power BI Service)">
+                        Web browsera (Power BI Service)
+                    </li>
+                    <li data-sr="Mobilnih aplikacija za iOS, Android i Windows"
+                        data-en="Mobile applications for iOS, Android and Windows"
+                        data-sl="Mobilnih aplikacij za iOS, Android in Windows">
+                        Mobilnih aplikacija za iOS, Android i Windows
+                    </li>
+                </ul>
+
+                <p data-sr="Na ovaj način korisnici imaju pristup podacima u bilo kom trenutku i sa bilo kog uređaja."
+                data-en="This allows users to access data at any time and from any device."
+                data-sl="Na ta način imajo uporabniki dostop do podatkov kadarkoli in s katere koli naprave.">
+                    Na ovaj način korisnici imaju pristup podacima u bilo kom trenutku i sa bilo kog uređaja.
+                </p>
+
+                <div class="info-box">
+                    <div class="icon"><i class="fas fa-info-circle"></i></div>
+                    <div class="content">
+                        <strong data-sr="Važno" data-en="Important" data-sl="Pomembno">Važno</strong>
+                        <p data-sr="Ovo uputstvo je osmišljeno kao referentni materijal. Svi koraci, primeri i vežbe koje se obrađuju tokom obuke mogu se u bilo kom trenutku ponovo primeniti korišćenjem ovog dokumenta." 
+                            data-en="This guide is designed as a reference material. All steps, examples, and exercises covered during the training can be repeated at any time using this document." 
+                            data-sl="To navodilo je zasnovano kot referenčni material. Vsi koraki, primeri in vaje, obravnavani med usposabljanjem, se lahko kadarkoli ponovno uporabijo s pomočjo tega dokumenta.">
+                            Ovo uputstvo je osmišljeno kao referentni materijal. Svi koraci, primeri i vežbe koje se obrađuju tokom obuke mogu se u bilo kom trenutku ponovo primeniti korišćenjem ovog dokumenta.
+                        </p>
+                    </div>
+                </div>
+                <a href="https://www.youtube.com/watch?v=AGrl-H87pRU" target="_blank" class="video-box" style="text-decoration: none;">
+                    <div class="icon"><i class="fab fa-youtube"></i></div>
+                    <div class="content">
+                        <strong data-sr="YouTube Preporuka" data-en="YouTube Recommendation" data-sl="YouTube Priporočilo">YouTube Preporuka</strong>
+                        <p class="video-title">Power BI Tutorial From Beginner to Pro | Desktop to Dashboard in 60 Minutes</p>
+                    </div>
+                </a>
+            </section>
+
+            <section id="staje">
+                <h2 data-sr="Šta je Power BI" data-en="What is Power BI" data-sl="Kaj je Power BI">Šta je Power BI</h2>
+                <p data-sr="Power BI je Microsoft alat za vizuelnu analizu podataka koji omogućava korisnicima da iz velikih količina podataka izvuku ključne uvide i kreiraju interaktivne izveštaje i dashboard-e. Ovaj alat pomaže organizacijama, institucijama i pojedincima da donesu informisane odluke zasnovane na podacima."
+                    data-en="Power BI is a Microsoft tool for visual data analysis that allows users to extract key insights from large amounts of data and create interactive reports and dashboards. This tool helps organizations, institutions, and individuals make data-driven decisions."
+                    data-sl="Power BI je Microsoft orodje za vizualno analizo podatkov, ki uporabnikom omogoča, da iz velikih količin podatkov izluščijo ključne vpoglede in ustvarijo interaktivna poročila in nadzorne plošče. To orodje pomaga organizacijam, institucijam in posameznikom sprejemati odločitve na podlagi podatkov.">
+                        Power BI je Microsoft alat za vizuelnu analizu podataka koji omogućava korisnicima da iz velikih količina podataka izvuku ključne uvide i kreiraju interaktivne izveštaje i dashboard-e. Ovaj alat pomaže organizacijama, institucijama i pojedincima da donesu informisane odluke zasnovane na podacima.
+                    </p>
+
+                    <h3 data-sr="Zašto je vizuelna analiza bitna" data-en="Why Visual Analysis is Important" data-sl="Zakaj je vizualna analiza pomembna">
+                        Zašto je vizuelna analiza bitna
+                    </h3>
+                    <ul>
+                        <li data-sr="Omogućava brzo uočavanje trendova, obrazaca i anomalija" data-en="Allows quick identification of trends, patterns, and anomalies" data-sl="Omogoča hitro prepoznavanje trendov, vzorcev in anomalij">Omogućava brzo uočavanje trendova, obrazaca i anomalija</li>
+                        <li data-sr="Pomaže u donošenju bržih i preciznijih odluka" data-en="Helps in making faster and more accurate decisions" data-sl="Pomaga pri hitrejšem in natančnejšem odločanju">Pomaže u donošenju bržih i preciznijih odluka</li>
+                        <li data-sr="Olakšava komunikaciju informacija unutar tima ili organizacije" data-en="Facilitates communication of information within a team or organization" data-sl="Olašča komunikacijo informacij znotraj ekipe ali organizacije">Olakšava komunikaciju informacija unutar tima ili organizacije</li>
+                    </ul>
+
+                    <h3 data-sr="Omogućava" data-en="Enables" data-sl="Omogoča">
+                        Omogućava
+                    </h3>
+                        <ul>
+                            <li data-sr="Povezivanje sa različitim izvorima podataka: Excel, CSV, SQL baze, SharePoint, OneDrive, cloud servisi, web izvori i API-jevi" 
+                            data-en="Connecting to various data sources: Excel, CSV, SQL databases, SharePoint, OneDrive, cloud services, web sources and APIs" 
+                            data-sl="Povezovanje z različnimi viri podatkov : Excel, CSV, SQL baze, SharePoint, OneDrive, oblačne storitve, spletni viri in API-ji">
+                                Povezivanje sa različitim izvorima podataka : Excel, CSV, SQL baze, SharePoint, OneDrive, cloud servisi, web izvori i API-jevi  
+                                <br><i><b>Primer:</b> Konsolidovanje podataka o kreditima i depozitima iz više filijala banke u jedan centralni dashboard</i>
+                            </li>
+                            <li data-sr="Čišćenje i transformaciju podataka : Power Query omogućava filtriranje, čišćenje i pripremu podataka bez pisanja koda" 
+                            data-en="Data cleaning and transformation : Power Query enables filtering, cleaning, and preparing data without coding" 
+                            data-sl="Čiščenje in transformacija podatkov : Power Query omogoča filtriranje, čiščenje in pripravo podatkov brez programiranja">
+                                Čišćenje i transformaciju podataka : Power Query omogućava filtriranje, čišćenje i pripremu podataka bez pisanja koda  
+                                <br><i></i><b>Primer:</b> Uklanjanje duplikata i standardizacija podataka o klijentima pre analize rizika</i>
+                            </li>
+                            <li data-sr="Kreiranje interaktivnih izveštaja i dashboard-a : „drag & drop“ vizualizacije, grafikoni, tabele, sliceri i KPI kartice" 
+                            data-en="Creating interactive reports and dashboards : drag & drop visualizations, charts, tables, slicers, and KPI cards" 
+                            data-sl="Ustvarjanje interaktivnih poročil in nadzornih plošč : vizualizacije povleci in spusti, grafikoni, tabele, slicerji in KPI kartice">
+                                Kreiranje interaktivnih izveštaja i dashboard-a : „drag & drop“ vizualizacije, grafikoni, tabele, sliceri i KPI kartice  
+                                <br><i><b>Primer:</b> Dashboard sa bar, line i pie chartovima koji prikazuju kreditnu izloženost po poslovnim jedinicama</i>
+                            </li>
+                            <li data-sr="Deljenje izveštaja unutar i izvan organizacije : putem Power BI Service i mobilnih aplikacija" 
+                            data-en="Sharing reports within and outside the organization : via Power BI Service and mobile apps" 
+                            data-sl="Deljenje poročil znotraj in zunaj organizacije : preko Power BI Service in mobilnih aplikacij">
+                                Deljenje izveštaja unutar i izvan organizacije : putem Power BI Service i mobilnih aplikacija  
+                                <br><i><b>Primer:</b> Menadžeri i analitičari u banci mogu pratiti KPI-eve i kreditne izveštaje na telefonu ili web browseru u realnom vremenu</i>
+                            </li>
+                        </ul>
+
+                    <h3 data-sr="Najčešće primene" data-en="Most Common Uses" data-sl="Najpogostejše uporabe">
+                        Najčešće primene
+                    </h3>
+                    <ul>
+                        <li data-sr="Praćenje prodaje i KPI-a : analiza prodajnih performansi, ciljeva i trendova" data-en="Sales and KPI tracking : analysis of sales performance, goals and trends" data-sl="Sledenje prodaji in KPI : analiza prodajnih rezultatov, ciljev in trendov">Praćenje prodaje i KPI-a : analiza prodajnih performansi, ciljeva i trendova</li>
+                        <li data-sr="Finansijski izveštaji : budžeti, troškovi, prihodi i profitabilnost po projektima ili odeljenjima" data-en="Financial reports : budgets, costs, revenues, and profitability by projects or departments" data-sl="Finančna poročila : proračuni, stroški, prihodki in dobičkonosnost po projektih ali oddelkih">Finansijski izveštaji : budžeti, troškovi, prihodi i profitabilnost po projektima ili odeljenjima</li>
+                        <li data-sr="Analiza poslovnih procesa : optimizacija procesa, identifikacija uskih grla i poboljšanje performansi" data-en="Business process analysis : process optimization, identifying bottlenecks, and improving performance" data-sl="Analiza poslovnih procesov : optimizacija procesov, identifikacija ozkih grl in izboljšanje učinkovitosti">Analiza poslovnih procesa : optimizacija procesa, identifikacija uskih grla i poboljšanje performansi</li>
+                        <li data-sr="Donošenje odluka zasnovano na podacima : menadžeri i timovi koriste vizualne izveštaje za brze i informisane odluke" data-en="Data-driven decision making : managers and teams use visual reports for fast and informed decisions" data-sl="Sprejemanje odločitev na podlagi podatkov : managerji in ekipe uporabljajo vizualna poročila za hitre in informirane odločitve">Donošenje odluka zasnovano na podacima : menadžeri i timovi koriste vizualne izveštaje za brze i informisane odluke</li>
+                    </ul>
+
+                <a href="https://www.youtube.com/watch?v=yKTSLffVGbk" target="_blank" class="video-box" style="text-decoration: none;">
+                    <div class="icon"><i class="fab fa-youtube"></i></div>
+                    <div class="content">
+                        <strong data-sr="YouTube Preporuka" data-en="YouTube Recommendation" data-sl="YouTube Priporočilo">YouTube Preporuka</strong>
+                        <p class="video-title">What is Power BI?</p>
+                    </div>
+                </a>
+
+                <div class="info-box">
+                    <div class="icon"><i class="fas fa-info-circle"></i></div>
+                    <div class="content">
+                        <strong data-sr="Napomena" data-en="Note" data-sl="Opomba">Napomena</strong>
+                        <p data-sr="Power BI ne menja originalne podatke. Svi izveštaji i vizualizacije prikazuju podatke u vizuelnom obliku, dok izvorni podaci ostaju netaknuti. Ovo omogućava sigurnu analizu bez rizika od gubitka ili izmene podataka." 
+                            data-en="Power BI does not alter the original data. All reports and visualizations display the data in a visual format, while the source data remains unchanged. This allows safe analysis without the risk of losing or modifying data." 
+                            data-sl="Power BI ne spreminja izvornih podatkov. Vsa poročila in vizualizacije prikazujejo podatke v vizualni obliki, medtem ko izvorni podatki ostajajo nespremenjeni. To omogoča varno analizo brez tveganja izgube ali spremembe podatkov.">
+                            Power BI ne menja originalne podatke. Svi izveštaji i vizualizacije prikazuju podatke u vizuelnom obliku, dok izvorni podaci ostaju netaknuti. Ovo omogućava sigurnu analizu bez rizika od gubitka ili izmene podataka.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="komponente">
+                <h2 data-sr="Power BI komponente" data-en="Power BI Components" data-sl="Power BI Komponente">Power BI komponente</h2>
+                
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-sr="Komponenta" data-en="Component" data-sl="Komponenta">Komponenta</th>
+                                <th data-sr="Opis" data-en="Description" data-sl="Opis">Opis</th>
+                                <th data-sr="Kada se koristi" data-en="When to Use" data-sl="Kdaj uporabiti">Kada se koristi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Power BI Desktop</td>
+                                <td data-sr="Desktop aplikacija za Windows" data-en="Desktop application for Windows" data-sl="Namizna aplikacija za Windows">Desktop aplikacija za Windows</td>
+                                <td data-sr="Učitavanje i priprema podataka, kreiranje izveštaja" data-en="Load and prepare data, create reports" data-sl="Nalaganje in priprava podatkov, ustvarjanje poročil">Učitavanje i priprema podataka, kreiranje izveštaja</td>
+                            </tr>
+                            <tr>
+                                <td>Power BI Service (Web)</td>
+                                <td data-sr="Web portal" data-en="Web portal" data-sl="Spletni portal">Web portal</td>
+                                <td data-sr="Objavljivanje, deljenje izveštaja, kreiranje dashboarda" data-en="Publish, share reports, create dashboards" data-sl="Objavljanje, deljenje poročil, ustvarjanje nadzornih plošč">Objavljivanje, deljenje izveštaja, kreiranje dashboarda</td>
+                            </tr>
+                            <tr>
+                                <td>Power BI Mobile</td>
+                                <td data-sr="Android & iOS aplikacija" data-en="Android & iOS application" data-sl="Android in iOS aplikacija">Android & iOS aplikacija</td>
+                                <td data-sr="Pregled izveštaja i dashboarda u pokretu" data-en="View reports and dashboards on the go" data-sl="Ogled poročil in nadzornih plošč na poti">Pregled izveštaja i dashboarda u pokretu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="powerbi-description">
+                <h3 data-sr="Detaljan opis Power BI komponenti" 
+                    data-en="Detailed Description of Power BI Components" 
+                    data-sl="Podroben opis komponent Power BI">
+                    Detaljan opis Power BI komponenti
+                </h3>
+
+                <ul>
+                    <li data-sr="Power BI Desktop: služi za prikupljanje podataka iz različitih izvora, njihovu transformaciju i modelovanje, kao i za kreiranje vizualizacija i izveštaja koji se kasnije mogu objaviti."
+                        data-en="Power BI Desktop: is used for collecting data from various sources, transforming and modeling it, and creating visualizations and reports that can later be published."
+                        data-sl="Power BI Desktop: se uporablja za zbiranje podatkov iz različnih virov, njihovo transformacijo in modeliranje ter ustvarjanje vizualizacij in poročil, ki jih je mogoče kasneje objaviti.">
+                        <b>Power BI Desktop:</b> služi za prikupljanje podataka iz različitih izvora, njihovu transformaciju i modelovanje, kao i za kreiranje vizualizacija i izveštaja koji se kasnije mogu objaviti.
+                    </li>
+
+                    <li data-sr="Power BI Service (Web): omogućava deljenje izveštaja sa timom, kreiranje interaktivnih dashboarda i praćenje KPI-eva u realnom vremenu."
+                        data-en="Power BI Service (Web): allows sharing reports with your team, creating interactive dashboards, and tracking KPIs in real time."
+                        data-sl="Power BI Service (Web): omogoča deljenje poročil s timom, ustvarjanje interaktivnih nadzornih plošč in spremljanje KPI-jev v realnem času.">
+                        <b>Power BI Service (Web):</b> omogućava deljenje izveštaja sa timom, kreiranje interaktivnih dashboarda i praćenje KPI-eva u realnom vremenu.
+                    </li>
+
+                    <li data-sr="Power BI Mobile: omogućava pregled izveštaja i dashboarda na telefonu ili tabletu, što je korisno za menadžere i analitičare koji su često u pokretu."
+                        data-en="Power BI Mobile: enables viewing reports and dashboards on phone or tablet, useful for managers and analysts who are often on the move."
+                        data-sl="Power BI Mobile: omogoča ogled poročil in nadzornih plošč na telefonu ali tablici, kar je koristno za managerje in analitike, ki so pogosto na poti.">
+                        <b>Power BI Mobile:</b> omogućava pregled izveštaja i dashboarda na telefonu ili tabletu, što je korisno za menadžere i analitičare koji su često u pokretu.
+                    </li>
+                </ul>
+            </div>
+                
+                <p>
+                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/power-bi.png" target="_blank">
+                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/power-bi.png" alt="Interaktivni Power BI dashboard koji radi na iOS-u i Windows-u" style="max-width:100%;">
+                    </a>
+                </p>
+
+                <a href="https://www.youtube.com/watch?v=UaJ1VEk20IM" target="_blank" class="video-box" style="text-decoration: none;">
+                    <div class="icon"><i class="fab fa-youtube"></i></div>
+                    <div class="content">
+                        <strong data-sr="YouTube Preporuka" data-en="YouTube Recommendation" data-sl="YouTube Priporočilo">YouTube Preporuka</strong>
+                        <p class="video-title">Power BI Components Explained: Desktop, Service and Mobile</p>
+                    </div>
+                </a>
+
+                <div class="info-box">
+                    <div class="icon"><i class="fas fa-lightbulb"></i></div>
+                    <div class="content">
+                        <strong data-sr="Praksa" data-en="Best Practice" data-sl="Najboljša praksa">Praksa</strong>
+                        <p data-sr="Kreiramo izveštaje i vizualizacije u Desktop-u, delimo ih u Service-u i pratimo na telefonu i drugim uređajima." 
+                            data-en="Create reports and visualizations in Desktop, share them in Service, and monitor on mobile and other devices." 
+                            data-sl="Ustvarjanje poročil in vizualizacij v Desktopu, deljenje v Service in spremljanje na mobile in drugih napravah.">
+                            Kreiramo izveštaje i vizualizacije u Desktop-u, delimo ih u Service-u i pratimo na telefonu i drugim uređajima.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="instalacija">
+                <h2 data-sr="Instalacija Power BI Desktop" data-en="Power BI Desktop Installation" data-sl="Namestitev Power BI Desktop">Instalacija Power BI Desktop</h2>
+            <ol>
+                <li data-sr="Otvorite <a href='https://www.microsoft.com/en-us/download/details.aspx?id=105944' target='_blank'>Power BI Desktop download</a>" 
+                    data-en="Open <a href='https://www.microsoft.com/en-us/download/details.aspx?id=105944' target='_blank'>Power BI Desktop download</a>" 
+                    data-sl="Odprite <a href='https://www.microsoft.com/en-us/download/details.aspx?id=105944' target='_blank'>Power BI Desktop download</a>" 
+                    data-html="true">Otvorite <a href="https://www.microsoft.com/en-us/download/details.aspx?id=105944" target="_blank">Power BI Desktop download</a>
+                </li>
+                <li data-sr="Kliknite <strong>Download</strong> i instalirajte aplikaciju" 
+                    data-en="Click <strong>Download</strong> and install the application" 
+                    data-sl="Kliknite <strong>Download</strong> in namestite aplikacijo" 
+                    data-html="true">
+                    Kliknite <strong>Download</strong> i instalirajte aplikaciju
+                </li>
+                <li data-sr="Pokrenite aplikaciju i prijavite se Microsoft nalogom (potreban za čuvanje i deljenje izveštaja)" 
+                    data-en="Launch the application and sign in with your Microsoft account (required for saving and sharing reports)" 
+                    data-sl="Zaženite aplikacijo in se prijavite z Microsoft računom (potrebno za shranjevanje in deljenje poročil)">
+                    Pokrenite aplikaciju i prijavite se Microsoft nalogom (potreban za čuvanje i deljenje izveštaja)
+                </li>
+                <li data-sr="Napomena: Power BI Desktop radi samo na Windows operativnom sistemu" 
+                    data-en="Note: Power BI Desktop works only on Windows OS" 
+                    data-sl="Opomba: Power BI Desktop deluje samo na operacijskem sistemu Windows">
+                    Napomena: Power BI Desktop radi samo na Windows operativnom sistemu
+                </li>
+                <li data-sr="Sistemski zahtevi: oko 1 GB prostora na disku, 4 GB ili više RAM-a, internet konekcija za prijavu i deljenje izveštaja" 
+                    data-en="System requirements: about 1 GB of disk space, 4 GB or more RAM, internet connection required for sign-in and sharing reports" 
+                    data-sl="Sistemske zahteve: približno 1 GB prostora na disku, 4 GB ali več RAM, internetna povezava potrebna za prijavo in deljenje poročil">
+                    Sistemski zahtevi: oko 1 GB prostora na disku, 4 GB ili više RAM-a, internet konekcija za prijavu i deljenje izveštaja
+                </li>
+            </ol>
+
+                <p>
+                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/download.png" target="_blank">
+                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/download.png" alt="Interaktivni Power BI dashboard koji radi na iOS-u i Windows-u" style="max-width:100%;">
+                    </a>
+                </p>
+
+            </section>
+
+            <section id="ucitavanje">
+                <h2 data-sr="Učitavanje podataka" data-en="Loading Data" data-sl="Nalaganje podatkov">Učitavanje podataka</h2>
+                <ol>
+                    <li data-sr="Kliknite na <strong>Get Data</strong> u gornjem levom uglu Power BI Desktop-a" 
+                        data-en="Click on <strong>Get Data</strong> in the top left corner of Power BI Desktop" 
+                        data-sl="Kliknite na <strong>Get Data</strong> v zgornjem levem kotu Power BI Desktop">
+                        Kliknite na <strong>Get Data</strong> u gornjem levom uglu Power BI Desktop-a
+                    </li>
+                    <li data-sr="Izaberite izvor podataka (Excel, CSV, SQL Server, SharePoint itd.)" 
+                        data-en="Select the data source (Excel, CSV, SQL Server, SharePoint, etc.)" 
+                        data-sl="Izberite vir podatkov (Excel, CSV, SQL Server, SharePoint itd.)">
+                        Izaberite izvor podataka (Excel, CSV, SQL Server, SharePoint itd.)
+                    </li>
+                    <li data-sr="Kliknite <strong>Connect</strong> i unesite neophodne parametre: putanja fajla, server, baza ili API ključ" 
+                        data-en="Click <strong>Connect</strong> and enter the required parameters: file path, server, database or API key" 
+                        data-sl="Kliknite <strong>Connect</strong> in vnesite potrebne parametre: pot datoteke, strežnik, baza ali API ključ" 
+                        data-html="true">
+                        Kliknite <strong>Connect</strong> i unesite neophodne parametre: putanja fajla, server, baza ili API ključ
+                    </li>
+                </ol>
+
+                <p>
+                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/getdata.png" target="_blank">
+                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/getdata.png" alt="Power BI iz Oracle" style="max-width:100%;"></a>
+                        <p data-sr="→ Postupak za učitavanje podataka u Power BI iz Oracle baze podataka." 
+                        data-en="→ Procedure for loading data into Power BI from an Oracle database." 
+                        data-sl="→ Postopek za nalaganje podatkov v Power BI iz podatkovne baze Oracle.">
+                        → Postupak za učitavanje podataka u Power BI iz Oracle baze podataka.</p>
+                </p>
+
+                <p>
+                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/aecprod.png" target="_blank">
+                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/aecprod.png" alt="Database" style="max-width:100%;"></a>
+                        <p data-sr="→ Izvršite povezivanje sa bazom podataka, pri čemu se u ovom primeru koristi Oracle instanca AEC_TEST." 
+                        data-en="→ Establish a connection to the database, using the Oracle instance AEC_TEST in this example." 
+                        data-sl="→ Vzpostavite povezavo s podatkovno bazo, pri čemer je v tem primeru uporabljena Oracle instanca AEC_TEST.">
+                        → Izvršite povezivanje sa bazom podataka, pri čemu se u ovom primeru koristi Oracle instanca <b>AEC_TEST</b>.</p>
+                </p>
+
+                 <p>
+                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/userpass.png" target="_blank">
+                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/userpass.png" alt="User & password" style="max-width:100%;"></a>
+                        <p data-sr="→ U levom meniju izaberite opciju Database, a zatim unesite korisničko ime i lozinku kako biste povezali bazu podataka sa Power BI-jem i omogućili korišćenje podataka iz odabrane baze." 
+                        data-en="→ From the left-hand menu, select Database, then enter your username and password to connect the database with Power BI and enable the use of data from the selected database." 
+                        data-sl="→ V levem meniju izberite možnost Database, nato vnesite uporabniško ime in geslo, da povežete podatkovno bazo s Power BI-jem in omogočite uporabo podatkov iz izbrane baze.">
+                        → U levom meniju izaberite opciju <b>Database</b>, a zatim unesite korisničko ime i lozinku kako biste povezali bazu podataka sa Power BI-jem i omogućili korišćenje podataka iz odabrane baze.</p>
+                </p>
+
+                <h3 data-sr="Navigator: izbor tabela" 
+                    data-en="Navigator: Table Selection" 
+                    data-sl="Navigator: izbira tabel">Navigator: izbor tabela</h3>
+                <ul>
+                    <li data-sr="U Navigator prozoru vidite listu dostupnih tabela sa leve strane i pregled podataka sa desne strane" 
+                        data-en="In the Navigator window, you see a list of available tables on the left and a data preview on the right" 
+                        data-sl="V Navigator oknu vidite seznam razpoložljivih tabel na levi in predogled podatkov na desni">
+                        U Navigator prozoru vidite listu dostupnih tabela sa leve strane i pregled podataka sa desne strane
+                    </li>
+                    <li data-sr="Čekirajte tabele koje želite da učitate" 
+                        data-en="Check the tables you want to load" 
+                        data-sl="Označite tabele, ki jih želite naložiti">
+                        Čekirajte tabele koje želite da učitate
+                    </li>
+                    <li data-sr="Kliknite <strong>Transform Data</strong> pre nego što učitate podatke: ovo otvara Power Query Editor gde možete filtrirati, očistiti i formatirati podatke" 
+                        data-en="Click <strong>Transform Data</strong> before loading data: this opens Power Query Editor, where you can filter, clean, and format your data" 
+                        data-sl="Kliknite <strong>Transform Data</strong> preden naložite podatke: to odpre Power Query Editor, kjer lahko filtrirate, očistite in formatirate podatke" 
+                        data-html="true">
+                        Kliknite <strong>Transform Data</strong> pre nego što učitate podatke: ovo otvara Power Query Editor gde možete filtrirati, očistiti i formatirati podatke
+                    </li>
+                </ul>
+
+                <p>
+                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/navigator.png" target="_blank">
+                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/navigator.png" alt="Interaktivni Power BI dashboard koji radi na iOS-u i Windows-u" style="max-width:100%;"></a>
+                </p>
+
+                <a href="https://www.youtube.com/watch?v=dyL-03UFKKw" target="_blank" class="video-box" style="text-decoration: none;">
+                    <div class="icon"><i class="fab fa-youtube"></i></div>
+                    <div class="content">
+                        <strong data-sr="YouTube Preporuka" data-en="YouTube Recommendation" data-sl="YouTube Priporočilo">YouTube Preporuka</strong>
+                        <p class="video-title">Power BI: Loading Your Data</p>
+                    </div>
+                </a>
+            </section>
+
+            <section id="power-query">
+                <h2 data-sr="Power Query : obrada i čišćenje podataka" data-en="Power Query : Data Processing and Cleansing" data-sl="Power Query : obdelava in čiščenje podatkov">Power Query : obrada i čišćenje podataka</h2>
+                
+                <h3 data-sr="Promena tipova podataka" data-en="Changing Data Types" data-sl="Spreminjanje tipov podatkov">Promena tipova podataka</h3>
+            <p data-sr="Power Query je alat u Power BI-ju koji omogućava transformaciju i čišćenje podataka pre nego što ih učitate u model za analizu. Kroz različite opcije, možete pripremiti podatke tako da budu spremni za dalju analizu." data-en="Power Query is a tool in Power BI that allows for data transformation and cleansing before loading it into the model for analysis. Through various options, you can prepare data so it is ready for further analysis." data-sl="Power Query je orodje v Power BI, ki omogoča transformacijo in čiščenje podatkov, preden jih naložite v model za analizo. Z različnimi možnostmi lahko pripravite podatke, da bodo pripravljeni za nadaljnjo analizo." data-html="true">
+                Power Query je alat u Power BI-ju koji omogućava transformaciju i čišćenje podataka pre nego što ih učitate u model za analizu. Kroz različite opcije, možete pripremiti podatke tako da budu spremni za dalju analizu.
+            </p>
+
+            <h4 data-sr="Promena tipova podataka" data-en="Changing data types" data-sl="Spreminjanje tipov podatkov">Promena tipova podataka</h4>
+            <p data-sr="Jedan od osnovnih koraka je osigurati da su podaci u ispravnom formatu. Power Query omogućava promenu tipa podataka za svaku kolonu:" data-en="One of the basic steps is to ensure that the data is in the correct format. Power Query allows you to change the data type for each column:" data-sl="Eden od osnovnih korakov je zagotoviti, da so podatki v pravilnem formatu. Power Query omogoča spremembo tipa podatkov za vsako stolpec:" data-html="true">
+                Jedan od osnovnih koraka je osigurati da su podaci u ispravnom formatu. Power Query omogućava promenu tipa podataka za svaku kolonu:
+            </p>
+
+            <ul>
+                <li data-sr="Brojevi → Number (koristi se za numeričke vrednosti)" data-en="Numbers → Number (used for numeric values)" data-sl="Številke → Number (uporablja se za številčne vrednosti)">Brojevi → Number (koristi se za numeričke vrednosti)</li>
+                <li data-sr="Datumi → Date (korišćenje formata datuma)" data-en="Dates → Date (using the date format)" data-sl="Datumi → Date (uporaba formata datuma)">Datumi → Date (korišćenje formata datuma)</li>
+                <li data-sr="Tekst → Text (korisno za sve tekstualne podatke)" data-en="Text → Text (useful for all textual data)" data-sl="Besedilo → Text (koristno za vse besedilne podatke)">Tekst → Text (korisno za sve tekstualne podatke)</li>
+            </ul>
+            <p>Da biste promenili tip podataka, kliknite na naziv kolone i izaberite odgovarajući tip, ukoliko Power Query nije automatski prepoznao ispravan format.</p>
+
+            <h4 data-sr="Čišćenje podataka" data-en="Data Cleansing" data-sl="Čiščenje podatkov">Čišćenje podataka</h4>
+            <p data-sr="Da bi podaci bili pravilno analizirani, potrebno je očistiti i optimizovati setove podataka. To uključuje sledeće aktivnosti:" data-en="In order for data to be properly analyzed, it is necessary to clean and optimize the datasets. This includes the following activities:" data-sl="Da bi bili podatki pravilno analizirani, jih je treba očistiti in optimizirati. To vključuje naslednje dejavnosti:" data-html="true">
+                Da bi podaci bili pravilno analizirani, potrebno je očistiti i optimizovati setove podataka. To uključuje sledeće aktivnosti:
+            </p>
+
+            <ul>
+                <li data-sr="Uklonite nepotrebne kolone koje ne utiču na analizu." data-en="Remove unnecessary columns that do not affect the analysis." data-sl="Odstranite nepotrebne stolpce, ki ne vplivajo na analizo.">Uklonite nepotrebne kolone koje ne utiču na analizu.</li>
+                <li data-sr="Preimenujte kolone da biste poboljšali preglednost i lakše ih povezali sa analizama." data-en="Rename columns to improve clarity and make them easier to link to analyses." data-sl="Preimenujte stolpce, da izboljšate preglednost in jih lažje povežete z analizami.">Preimenujte kolone da biste poboljšali preglednost i lakše ih povezali sa analizama.</li>
+                <li data-sr="Filtrirajte ili uklonite redove koji nisu relevantni za vaše istraživanje ili analizu, kao što su prazni redovi ili podaci van opsega." data-en="Filter or remove rows that are not relevant to your research or analysis, such as empty rows or out-of-range data." data-sl="Filtrirajte ali odstranite vrstice, ki niso relevantne za vaše raziskovanje ali analizo, kot so prazne vrstice ali podatki izven obsega.">Filtrirajte ili uklonite redove koji nisu potrebni.</li>
+            </ul>
+
+            <h4 data-sr="Transformacije podataka" data-en="Data Transformations" data-sl="Transformacije podatkov">Transformacije podataka</h4>
+            <p data-sr="Power Query omogućava i napredne transformacije podataka, kao što su:" data-en="Power Query also allows for advanced data transformations, such as:" data-sl="Power Query omogoča tudi napredne transformacije podatkov, kot so:" data-html="true">
+                Power Query omogućava i napredne transformacije podataka, kao što su:
+            </p>
+
+            <ul>
+                <li data-sr="Split (razdvajanje) kolona – možete razdvojiti podatke u jednoj koloni na više kolona (npr. razdvajanje imena i prezimena)." data-en="Split (splitting) columns – you can separate data in a single column into multiple columns (e.g., splitting first and last names)." data-sl="Razdeli (deljenje) stolpcev – podatke v enem stolpcu lahko razdelite na več stolpcev (npr. razdelitev imena in priimka).">Split (razdvajanje) kolona – možete razdvojiti podatke u jednoj koloni na više kolona (npr. razdvajanje imena i prezimena).</li>
+                <li data-sr="Merge (spajanje) kolona – spajanje više kolona u jednu (npr. spajanje adrese u jednu kolonu)." data-en="Merge (merging) columns – merging multiple columns into one (e.g., merging address fields into one column)." data-sl="Združi (spajanje) stolpcev – združevanje več stolpcev v enega (npr. združevanje naslovov v en stolpec).">Merge (spajanje) kolona – spajanje više kolona u jednu (npr. spajanje adrese u jednu kolonu).</li>
+                <li data-sr="Dodavanje kolona sa formulama – kreiranje novih kolona na osnovu postojećih, koristeći matematičke i logičke formule." data-en="Adding columns with formulas – creating new columns based on existing ones, using mathematical and logical formulas." data-sl="Dodajanje stolpcev s formulami – ustvarjanje novih stolpcev na podlagi obstoječih, z uporabo matematičnih in logičnih formul.">Dodavanje kolona sa formulama – kreiranje novih kolona na osnovu postojećih, koristeći matematičke i logičke formule.</li>
+                <li data-sr="Spajanje tabela (Merge Queries) – spajanje više tabela u jednu na osnovu zajedničkih vrednosti, što omogućava detaljniju analizu." data-en="Merging tables (Merge Queries) – merging multiple tables into one based on common values, allowing for more detailed analysis." data-sl="Združevanje tabel (Merge Queries) – združevanje več tabel v eno na podlagi skupnih vrednosti, kar omogoča bolj podrobno analizo.">Spajanje tabela (Merge Queries) – spajanje više tabela u jednu na osnovu zajedničkih vrednosti, što omogućava detaljniju analizu.</li>
+            </ul>
+
+            <h4 data-sr="Zatvaranje Power Query-ja" data-en="Closing Power Query" data-sl="Zapiranje Power Query">Zatvaranje Power Query-ja</h4>
+                <p data-sr="Kada završite sa transformacijama i čišćenjem podataka, potrebno je da primenite sve promene i učitate podatke u model. Kliknite na Close & Apply kako biste sačuvali sve promene i učitali očišćene podatke u Power BI model za dalju analizu i vizualizaciju." 
+                    data-en="Once you finish with data transformations and cleansing, you need to apply all changes and load the data into the model. Click on Close & Apply to save all changes and load the cleaned data into the Power BI model for further analysis and visualization." 
+                    data-sl="Ko končate s transformacijami in čiščenjem podatkov, morate uporabiti vse spremembe in naložiti podatke v model. Kliknite na Close & Apply, da shranite vse spremembe in naložite očiščene podatke v Power BI model za nadaljnjo analizo in vizualizacijo." 
+                    data-html="true">
+                    Kada završite sa transformacijama i čišćenjem podataka, potrebno je da primenite sve promene i učitate podatke u model. Kliknite na <strong>Close & Apply</strong> kako biste sačuvali sve promene i učitali očišćene podatke u Power BI model za dalju analizu i vizualizaciju.
+                
+                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/powerquery.png" target="_blank">
+                    <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/powerquery.png" alt="Powerquery" style="max-width:100%;"></a>
+                </p>
+
+
+                <a href="https://www.youtube.com/watch?v=0aeZX1l4JT4" target="_blank" class="video-box" style="text-decoration: none;">
+                    <div class="icon"><i class="fab fa-youtube"></i></div>
+                    <div class="content">
+                        <strong data-sr="YouTube Preporuka" data-en="YouTube Recommendation" data-sl="YouTube Priporočilo">YouTube Preporuka</strong>
+                        <p class="video-title">How to use Microsoft Power Query</p>
+                    </div>
+                </a>
+            </section>
+
+            <section id="modelovanje">
+                <h2 data-sr="Modelovanje podataka" data-en="Data Modeling" data-sl="Modeliranje podatkov">Modelovanje podataka</h2>
+                <p 
+                    data-sr="Modelovanje podataka predstavlja ključni korak u Power BI-ju, jer omogućava pravilno povezivanje tabela i obezbeđuje da izveštaji i analize daju tačne i pouzdane rezultate." 
+                    data-en="Data modeling is a key step in Power BI, as it enables proper table relationships and ensures that reports and analyses produce accurate and reliable results." 
+                    data-sl="Modeliranje podatkov je ključen korak v Power BI-ju, saj omogoča pravilno povezovanje tabel in zagotavlja natančne ter zanesljive analize.">
+                    Modelovanje podataka predstavlja ključni korak u Power BI-ju, jer omogućava pravilno povezivanje tabela i obezbeđuje da izveštaji i analize daju tačne i pouzdane rezultate.
+                </p>
+
+                <p 
+                    data-sr="U Model view režimu možete pregledati kompletnu strukturu podataka, kao i veze koje postoje između tabela. Power BI često automatski kreira relacije, ali je važno proveriti da li one odgovaraju stvarnoj poslovnoj logici." 
+                    data-en="In Model view, you can review the complete data structure and the relationships between tables. Power BI often creates relationships automatically, but it is important to verify that they reflect the actual business logic." 
+                    data-sl="V pogledu Model view lahko pregledate celotno strukturo podatkov in odnose med tabelami. Power BI pogosto samodejno ustvari relacije, vendar je pomembno preveriti, ali ustrezajo poslovni logiki.">
+                    U Model view režimu možete pregledati kompletnu strukturu podataka, kao i veze koje postoje između tabela. Power BI često automatski kreira relacije, ali je važno proveriti da li one odgovaraju stvarnoj poslovnoj logici.
+                </p>
+
+                <p 
+                    data-sr="Najčešće korišćen tip veze je One-to-Many (1:N), gde jedna vrednost u dimenzionoj tabeli može biti povezana sa više zapisa u fact tabeli." 
+                    data-en="The most commonly used relationship type is One-to-Many (1:N), where one value in a dimension table can be related to multiple records in a fact table." 
+                    data-sl="Najpogosteje uporabljena vrsta povezave je One-to-Many (1:N), kjer je ena vrednost v dimenzijski tabeli povezana z več zapisi v faktni tabeli.">
+                    Najčešće korišćen tip veze je <strong>One-to-Many (1:N)</strong>, gde jedna vrednost u dimenzionoj tabeli može biti povezana sa više zapisa u fact tabeli.
+                </p>
+
+                <p 
+                    data-sr="Po potrebi, relacije je moguće ručno kreirati ili ispraviti kako bi se obezbedila konzistentnost podataka, tačne agregacije i pravilno filtriranje." 
+                    data-en="If needed, relationships can be manually created or adjusted to ensure data consistency, accurate aggregations, and proper filtering." 
+                    data-sl="Po potrebi je mogoče relacije ročno ustvariti ali prilagoditi, da se zagotovi doslednost podatkov, pravilne agregacije in filtriranje.">
+                    Po potrebi, relacije je moguće ručno kreirati ili ispraviti kako bi se obezbedila konzistentnost podataka, tačne agregacije i pravilno filtriranje.
+                </p>
+
+                <h3 
+                    data-sr="Preporučeni pristup: Star Schema" 
+                    data-en="Recommended Approach: Star Schema" 
+                    data-sl="Priporočen pristop: Star Schema">
+                    Preporučeni pristup: Star Schema
+                </h3>
+
+                <ul>
+                    <li 
+                        data-sr="Centralna Fact tabela sa numeričkim vrednostima koje se analiziraju (npr. iznosi, izloženost, salda)" 
+                        data-en="A central fact table containing numerical values to be analyzed (e.g. amounts, exposure, balances)" 
+                        data-sl="Osrednja faktna tabela z numeričnimi vrednostmi za analizo (npr. zneski, izpostavljenost, stanja)">
+                        Centralna <strong>Fact tabela</strong> sa numeričkim vrednostima koje se analiziraju (npr. iznosi, izloženost, salda)
+                    </li>
+                    <li 
+                        data-sr="Dimenzione tabele koje daju kontekst podacima, kao što su vreme, kategorije, proizvodi ili organizacione jedinice" 
+                        data-en="Dimension tables that provide context to the data, such as time, categories, products, or organizational units" 
+                        data-sl="Dimenzijske tabele, ki dajejo kontekst podatkom, kot so čas, kategorije, izdelki ali organizacijske enote">
+                        Povezane <strong>dimenzione tabele</strong> koje daju kontekst podacima (npr. vreme, kategorije, proizvodi ili organizacione jedinice)
+                    </li>
+                </ul>
+                <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/modelovanje.png" target="_blank">
+                    <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/modelovanje.png" alt="modelovanje" style="max-width:100%;"></a>
+
+                <p 
+                    data-sr="Ovakav model obezbeđuje bolju preglednost podataka, jednostavnije analize i bolje performanse u Power BI-ju." 
+                    data-en="This type of model provides better data clarity, simpler analysis, and improved performance in Power BI." 
+                    data-sl="Takšen model zagotavlja boljšo preglednost podatkov, enostavnejše analize in boljšo zmogljivost v Power BI-ju.">
+                    Ovakav model obezbeđuje bolju preglednost podataka, jednostavnije analize i bolje performanse u Power BI-ju.
+                </p>
+                    <a href="https://www.youtube.com/watch?v=19z3DfrB2C8" target="_blank" class="video-box" style="text-decoration: none;">
+                    <div class="icon"><i class="fab fa-youtube"></i></div>
+                    <div class="content">
+                    <strong data-sr="YouTube Preporuka" data-en="YouTube Recommendation" data-sl="YouTube Priporočilo">YouTube Preporuka</strong>
+                    <p class="video-title">Data Modelling in Power BI</p>
+                    </div>
+                            </a>
+
+                    <div class="info-box">
+                        <div class="icon"><i class="fas fa-info-circle"></i></div>
+                        <div class="content">
+                        <strong data-sr="Napomena" data-en="Note" data-sl="Opomba">Napomena</strong>
+                        <p data-sr="Fokusirajte se na razumevanje odnosa između tabela i tipova veza, a ne na konkretan skup podataka prikazan u videu." 
+                            data-en="Focus on understanding the relationships between tables and the types of relationships, rather than the specific dataset shown in the video." 
+                            data-sl="Osredotočite se na razumevanje odnosov med tabelami in vrst povezav, ne pa na konkreten nabor podatkov, prikazan v videu.">
+                            Fokusirajte se na razumevanje odnosa između tabela i tipova veza, a ne na konkretan skup podataka prikazan u videu.</p>
+                                </div>
+                            </div>        
+            </section>
+
+            <section id="vizualizacije">
+                <h2 data-sr="Kreiranje vizualizacija" data-en="Creating Visualizations" data-sl="Ustvarjanje vizualizacij">Kreiranje vizualizacija</h2>
+                
+
+                    <p
+                        data-sr="Kreiranje vizualizacija predstavlja ključni korak u izradi Power BI izveštaja, jer omogućava korisnicima da podatke sagledaju jasno, intuitivno i interaktivno."
+                        data-en="Creating visualizations is a key step in building Power BI reports, enabling users to view data clearly, intuitively, and interactively."
+                        data-sl="Ustvarjanje vizualizacij je ključni korak pri izdelavi Power BI poročil, saj uporabnikom omogoča jasen, intuitiven in interaktiven vpogled v podatke.">
+                        Kreiranje vizualizacija predstavlja ključni korak u izradi Power BI izveštaja, jer omogućava korisnicima da podatke sagledaju jasno, intuitivno i interaktivno.
+                    </p>
+
+                    <h3
+                        data-sr="Report view"
+                        data-en="Report View"
+                        data-sl="Report View">
+                        Report view
+                    </h3>
+
+                    <ul>
+                        <li
+                            data-sr="Report view je osnovni radni prostor u kome se kreiraju i uređuju vizualizacije."
+                            data-en="Report view is the main workspace where visualizations are created and edited."
+                            data-sl="Report view je glavni delovni prostor, kjer se ustvarjajo in urejajo vizualizacije.">
+                            Report view je osnovni radni prostor u kome se kreiraju i uređuju vizualizacije.
+                        </li>
+
+                        <li
+                            data-sr="Sadrži praznu radnu površinu (canvas) na koju se postavljaju vizuali."
+                            data-en="It contains a blank canvas where visuals are placed."
+                            data-sl="Vsebuje prazno delovno površino (canvas), kamor se postavljajo vizualizacije.">
+                            Sadrži praznu radnu površinu (canvas) na koju se postavljaju vizuali.
+                        </li>
+
+                        <li
+                            data-sr="Vizuali se mogu pomerati, menjati veličinu i poravnavati."
+                            data-en="Visuals can be moved, resized, and aligned."
+                            data-sl="Vizualizacije je mogoče premikati, spreminjati velikost in poravnavati.">
+                            Vizuali se mogu pomerati, menjati veličinu i poravnavati.
+                        </li>
+                    </ul>
+
+                    <h3
+                        data-sr="Paneli u Report view-u"
+                        data-en="Panels in Report View"
+                        data-sl="Plošče v Report View">
+                        Paneli u Report view-u
+                    </h3>
+
+                    <ul>
+                        <li
+                            data-sr="Panel sa vizualima (Visualizations) omogućava izbor tipa vizuala."
+                            data-en="The Visualizations pane allows selecting the visual type."
+                            data-sl="Plošča Visualizations omogoča izbiro vrste vizualizacije.">
+                            Panel sa vizualima (Visualizations) omogućava izbor tipa vizuala.
+                        </li>
+
+                        <li
+                            data-sr="Panel sa poljima (Fields) prikazuje tabele, kolone i mere iz modela."
+                            data-en="The Fields pane shows tables, columns, and measures from the model."
+                            data-sl="Plošča Fields prikazuje tabele, stolpce in mere iz modela.">
+                            Panel sa poljima (Fields) prikazuje tabele, kolone i mere iz modela.
+                        </li>
+
+                        <li
+                            data-sr="Panel Format omogućava vizuelno prilagođavanje izabranog vizuala."
+                            data-en="The Format pane allows visual customization of the selected visual."
+                            data-sl="Plošča Format omogoča vizualno prilagajanje izbranega vizuala.">
+                            Panel Format omogućava vizuelno prilagođavanje izabranog vizuala.
+                        </li>
+                    </ul>
+
+                    <h3
+                        data-sr="Kreiranje tabele"
+                        data-en="Creating a Table"
+                        data-sl="Ustvarjanje tabele">
+                        Kreiranje tabele
+                    </h3>
+
+                    <ul>
+                        <li
+                            data-sr="Izaberite Table vizual iz panela sa vizualima."
+                            data-en="Select the Table visual from the Visualizations pane."
+                            data-sl="Izberite vizual Table iz plošče Visualizations.">
+                            Izaberite Table vizual iz panela sa vizualima.
+                        </li>
+
+                        <li
+                            data-sr="Prevucite željena polja u tabelu (npr. klijent, proizvod, iznos)."
+                            data-en="Drag desired fields into the table (e.g. customer, product, amount)."
+                            data-sl="Povlecite želena polja v tabelo (npr. stranka, izdelek, znesek).">
+                            Prevucite željena polja u tabelu (npr. klijent, proizvod, iznos).
+                        </li>
+
+                        <li
+                            data-sr="Tabele se često koriste za detaljan pregled podataka."
+                            data-en="Tables are commonly used for detailed data inspection."
+                            data-sl="Tabele se pogosto uporabljajo za podroben pregled podatkov.">
+                            Tabele se često koriste za detaljan pregled podataka.
+                        </li>
+                    </ul>
+
+                    <h3
+                        data-sr="Kreiranje grafikona"
+                        data-en="Creating Charts"
+                        data-sl="Ustvarjanje grafikonov">
+                        Kreiranje grafikona
+                    </h3>
+
+                    <ul>
+                        <li
+                            data-sr="Column i Bar grafikoni se koriste za poređenje vrednosti."
+                            data-en="Column and Bar charts are used to compare values."
+                            data-sl="Stolpčni in palični grafikoni se uporabljajo za primerjavo vrednosti.">
+                            Column i Bar grafikoni se koriste za poređenje vrednosti.
+                        </li>
+
+                        <li
+                            data-sr="Axis predstavlja kategorije (npr. država, proizvod)."
+                            data-en="Axis represents categories (e.g. country, product)."
+                            data-sl="Axis predstavlja kategorije (npr. država, izdelek).">
+                            Axis predstavlja kategorije (npr. država, proizvod).
+                        </li>
+
+                        <li
+                            data-sr="Values sadrži numeričke mere koje se analiziraju."
+                            data-en="Values contain numerical measures used for analysis."
+                            data-sl="Values vsebuje numerične mere za analizo.">
+                            Values sadrži numeričke mere koje se analiziraju.
+                        </li>
+                    </ul>
+
+                    <h3
+                        data-sr="Slicer (filter)"
+                        data-en="Slicer (Filter)"
+                        data-sl="Slicer (filter)">
+                        Slicer (filter)
+                    </h3>
+
+                    <ul>
+                        <li
+                            data-sr="Slicer omogućava filtriranje podataka po izabranom kriterijumu."
+                            data-en="A slicer allows filtering data by a selected criterion."
+                            data-sl="Slicer omogoča filtriranje podatkov po izbranem kriteriju.">
+                            Slicer omogućava filtriranje podataka po izabranom kriterijumu.
+                        </li>
+
+                        <li
+                            data-sr="Promene u sliceru automatski utiču na sve vizuale na stranici."
+                            data-en="Changes in a slicer automatically affect all visuals on the page."
+                            data-sl="Spremembe v slicerju samodejno vplivajo na vse vizualizacije na strani.">
+                            Promene u sliceru automatski utiču na sve vizuale na stranici.
+                        </li>
+                    </ul>
+
+                    <h3
+                        data-sr="Interakcije i formatiranje"
+                        data-en="Interactions and Formatting"
+                        data-sl="Interakcije in oblikovanje">
+                        Interakcije i formatiranje
+                    </h3>
+
+                    <ul>
+                        <li
+                            data-sr="Vizuali su međusobno povezani i reaguju na selekciju."
+                            data-en="Visuals are interconnected and respond to selections."
+                            data-sl="Vizualizacije so medsebojno povezane in se odzivajo na izbiro.">
+                            Vizuali su međusobno povezani i reaguju na selekciju.
+                        </li>
+
+                        <li
+                            data-sr="Moguće je uključiti ili isključiti interakcije između vizuala."
+                            data-en="Interactions between visuals can be enabled or disabled."
+                            data-sl="Interakcije med vizualizacijami je mogoče omogočiti ali onemogočiti.">
+                            Moguće je uključiti ili isključiti interakcije između vizuala.
+                        </li>
+
+                        <li
+                            data-sr="Format panel se koristi za boje, oznake, naslove i stil."
+                            data-en="The Format pane is used for colors, labels, titles, and styling."
+                            data-sl="Plošča Format se uporablja za barve, oznake, naslove in slog.">
+                            Format panel se koristi za boje, oznake, naslove i stil.
+                        </li>
+                    </ul>
+
+                    <p
+                        data-sr="Dobro dizajnirane vizualizacije omogućavaju brže donošenje odluka i bolje razumevanje podataka."
+                        data-en="Well-designed visualizations enable faster decision-making and better data understanding."
+                        data-sl="Dobro oblikovane vizualizacije omogočajo hitrejše odločanje in boljše razumevanje podatkov.">
+                        Dobro dizajnirane vizualizacije omogućavaju brže donošenje odluka i bolje razumevanje podataka.
+                    </p>
+
+                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/vizual.png" target="_blank">
+                    <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/vizual.png" alt="modelovanje" style="max-width:100%;"></a>
+
+                    <a href="https://www.youtube.com/watch?v=Rpgo3J44hTE" target="_blank" class="video-box" style="text-decoration: none;">
+                        <div class="icon"><i class="fab fa-youtube"></i></div>
+                        <div class="content">
+                        <strong data-sr="YouTube Preporuka" data-en="YouTube Recommendation" data-sl="YouTube Priporočilo">YouTube Preporuka</strong>
+                        <p class="video-title">Visualizations in Power BI - Full Tutorial</p>
+                    </div>
+                </a>
+            </section>
+
+            <section id="deljenje">
+                <h2 data-sr="Objavljivanje i deljenje izveštaja" data-en="Publishing and Sharing Reports" data-sl="Objavljanje in deljenje poročil">Objavljivanje i deljenje izveštaja</h2>
+                
+            <h3
+                data-sr="Deljenje Izveštaja"
+                data-en="Publish"
+                data-sl="Deljenje poročil">
+                Deljenje Izveštaja
+            </h3>
+            <ul>
+                <li
+                    data-sr="Nakon što završite kreiranje izveštaja u Power BI Desktop-u, kliknite na Publish."
+                    data-en="After completing your report in Power BI Desktop, click Publish."
+                    data-sl="Ko končate ustvarjanje poročila v Power BI Desktop, kliknite Publish.">
+                    Nakon što završite kreiranje izveštaja u Power BI Desktop-u, kliknite na Publish.
+                </li>
+                <li
+                    data-sr="Odaberite Workspace (radni prostor) u Power BI Service-u gde želite da objavite izveštaj."
+                    data-en="Select the Workspace in Power BI Service where you want to publish the report."
+                    data-sl="Izberite Workspace v Power BI Service, kamor želite objaviti poročilo.">
+                    Odaberite Workspace (radni prostor) u Power BI Service-u gde želite da objavite izveštaj.
+                </li>
+                <li
+                    data-sr="Objavljivanjem izveštaja u Workspace omogućavate timu da ga pregleda, koristi i poveže sa Dashboard-ima."
+                    data-en="Publishing to a Workspace allows your team to view, use, and connect it to Dashboards."
+                    data-sl="Objavljanje v Workspace omogoča ekipi ogled, uporabo in povezavo z Dashboard-i.">
+                    Objavljivanjem izveštaja u Workspace omogućavate timu da ga pregleda, koristi i poveže sa Dashboard-ima.
+                </li>
+            </ul>
+
+            <h3
+                data-sr="Kreiranje Dashboard-a"
+                data-en="Creating a Dashboard"
+                data-sl="Ustvarjanje Dashboard-a">
+                Kreiranje Dashboard-a
+            </h3>
+            <ul>
+                <li
+                    data-sr="Pinovanje vizuala: Odaberite vizual iz izveštaja i kliknite Pin da ga dodate na Dashboard."
+                    data-en="Pin visuals: Select a visual from your report and click Pin to add it to the Dashboard."
+                    data-sl="Pinanje vizualov: Izberite vizual iz poročila in kliknite Pin, da ga dodate na Dashboard.">
+                    Pinovanje vizuala: Odaberite vizual iz izveštaja i kliknite Pin da ga dodate na Dashboard.
+                </li>
+                <li
+                    data-sr="Kombinovanje vizuala: Na jednom Dashboard-u možete objediniti više vizuala iz različitih izveštaja, kako biste dobili pregled ključnih podataka na jednoj stranici."
+                    data-en="Combining visuals: You can consolidate multiple visuals from different reports on one Dashboard to get an overview of key data."
+                    data-sl="Združevanje vizualov: Na enem Dashboard-u lahko združite več vizualov iz različnih poročil za pregled ključnih podatkov.">
+                    Kombinovanje vizuala: Na jednom Dashboard-u možete objediniti više vizuala iz različitih izveštaja, kako biste dobili pregled ključnih podataka na jednoj stranici.
+                </li>
+                <li
+                    data-sr="Dashboard omogućava brzi pregled KPI-eva, trendova i najvažnijih informacija."
+                    data-en="Dashboards provide quick insights into KPIs, trends, and critical information."
+                    data-sl="Dashboard-i omogočajo hiter vpogled v KPI-je, trende in ključne informacije.">
+                    Dashboard omogućava brzi pregled KPI-eva, trendova i najvažnijih informacija.
+                </li>
+            </ul>
+
+            <h3
+                data-sr="Deljenje izveštaja"
+                data-en="Sharing Reports"
+                data-sl="Deljenje poročil">
+                Deljenje izveštaja
+            </h3>
+            <ul>
+                <li
+                    data-sr="Kliknite na Share u Power BI Service-u da biste omogućili pristup kolegama ili partnerima."
+                    data-en="Click Share in Power BI Service to grant access to colleagues or partners."
+                    data-sl="Kliknite Share v Power BI Service, da omogočite dostop sodelavcem ali partnerjem.">
+                    Kliknite na Share u Power BI Service-u da biste omogućili pristup kolegama ili partnerima.
+                </li>
+                <li
+                    data-sr="Dodajte email adrese korisnika i podesite nivo dozvola (samo pregled ili uređivanje)."
+                    data-en="Add user email addresses and set permission levels (view only or edit)."
+                    data-sl="Dodajte e-poštne naslove uporabnikov in nastavite nivo dovoljenj (samo ogled ali urejanje).">
+                    Dodajte email adrese korisnika i podesite nivo dozvola (samo pregled ili uređivanje).
+                </li>
+                <li
+                    data-sr="Opcija Publish to Web služi za javno deljenje izveštaja, ali je treba koristiti samo uz odobrenje jer izveštaj postaje dostupan svima sa linkom."
+                    data-en="The Publish to Web option allows public sharing of the report, but should be used only with approval as the report becomes accessible to anyone with the link."
+                    data-sl="Opcija Publish to Web omogoča javno deljenje poročila, vendar jo je treba uporabiti le s soglasjem, saj postane poročilo dostopno vsakomur s povezavo.">
+                    Opcija Publish to Web služi za javno deljenje izveštaja, ali je treba koristiti samo uz odobrenje jer izveštaj postaje dostupan svima sa linkom.
+                </li>
+            </ul>
+            </section>
+
+            <section id="zakljucak">
+                    <h2 
+                        data-sr="Zaključak i preporuke"
+                        data-en="Conclusion and Recommendations"
+                        data-sl="Zaključek in priporočila">
+                        Zaključak i preporuke
+                    </h2>
+            <h3
+                data-sr="Na kraju obuke, polaznici će biti sposobni da:"
+                data-en="At the end of the training, participants will be able to:"
+                data-sl="Na koncu usposabljanja bodo udeleženci sposobni:"
+            >
+                Na kraju obuke, polaznici će biti sposobni da:
+            </h3>
+            <ul>
+                <li
+                    data-sr="Samostalno učitaju podatke iz različitih izvora i formata."
+                    data-en="Independently load data from various sources and formats."
+                    data-sl="Samostojno naložijo podatke iz različnih virov in formatov."
+                >
+                    Samostalno učitaju podatke iz različitih izvora i formata.
+                </li>
+                <li
+                    data-sr="Pripreme i očiste podatke za dalju analizu koristeći najbolje prakse."
+                    data-en="Prepare and clean data for further analysis using best practices."
+                    data-sl="Pripravijo in očistijo podatke za nadaljnjo analizo z najboljšimi praksami."
+                >
+                    Pripreme i očiste podatke za dalju analizu koristeći najbolje prakse.
+                </li>
+                <li
+                    data-sr="Kreiraju osnovne vizualizacije i interaktivne dashboarde koji omogućavaju bolje razumevanje podataka."
+                    data-en="Create basic visualizations and interactive dashboards that enable better understanding of data."
+                    data-sl="Ustvarijo osnovne vizualizacije in interaktivne nadzorne plošče, ki omogočajo boljše razumevanje podatkov."
+                >
+                    Kreiraju osnovne vizualizacije i interaktivne dashboarde koji omogućavaju bolje razumevanje podataka.
+                </li>
+                <li
+                    data-sr="Objavljuju i dele izveštaje sa kolegama i klijentima u nekoliko jednostavnih koraka."
+                    data-en="Publish and share reports with colleagues and clients in a few simple steps."
+                    data-sl="Objavijo in delijo poročila s kolegi in strankami v nekaj preprostih korakih."
+                >
+                    Objavljuju i dele izveštaje sa kolegama i klijentima u nekoliko jednostavnih koraka.
+                </li>
+            </ul>
+
+            <h3
+                data-sr="Dodatne preporuke"
+                data-en="Additional Recommendations"
+                data-sl="Dodatna priporočila"
+            >
+                Dodatne preporuke
+            </h3>
+            <ul>
+                <li
+                    data-sr="Vežbajte sa različitim izvorima podataka kako biste razvili svoje veštine analize."
+                    data-en="Practice with different data sources to develop your analytical skills."
+                    data-sl="Vadite z različnimi viri podatkov, da razvijete svoje analitične sposobnosti."
+                >
+                    Vežbajte sa različitim izvorima podataka kako biste razvili svoje veštine analize.
+                </li>
+                <li
+                    data-sr="Eksperimentišite sa vizualima i slicerima kako biste kreirali dinamične i informativne izveštaje."
+                    data-en="Experiment with visuals and slicers to create dynamic and informative reports."
+                    data-sl="Eksperimentirajte z vizualizacijami in slicerji, da ustvarite dinamična in informativna poročila."
+                >
+                    Eksperimentišite sa vizualima i slicerima kako biste kreirali dinamične i informativne izveštaje.
+                </li>
+                <li
+                    data-sr="Koristite Power Query za efikasno čišćenje podataka i optimizaciju procesa."
+                    data-en="Use Power Query for efficient data cleaning and process optimization."
+                    data-sl="Uporabite Power Query za učinkovito čiščenje podatkov in optimizacijo procesov."
+                >
+                    Koristite Power Query za efikasno čišćenje podataka i optimizaciju procesa.
+                </li>
+                <li
+                    data-sr="Ako radite sa osetljivim podacima, ne zaboravite da implementirate RLS (Row Level Security) kako biste osigurali zaštitu podataka."
+                    data-en="If working with sensitive data, make sure to implement RLS (Row Level Security) to ensure data protection."
+                    data-sl="Če delate z občutljivimi podatki, ne pozabite uporabiti RLS (Row Level Security), da zagotovite zaščito podatkov."
+                >
+                    Ako radite sa osetljivim podacima, ne zaboravite da implementirate RLS (Row Level Security) kako biste osigurali zaštitu podataka.
+                </li>
+            </ul>
+            </section>
+
+            <hr>
+
+            <section>
+                <h2 data-sr="Vremenska procena" data-en="Time Estimate" data-sl="Časovna ocena">Vremenska procena</h2>
+                <p data-sr="Ukupno vreme za kompletiranje obuke: <strong>120 minuta</strong>" data-en="Total time to complete training: <strong>120 minutes</strong>" data-sl="Skupni čas za dokončanje usposabljanja: <strong>120 minut</strong>" data-html="true">Ukupno vreme za kompletiranje obuke: <strong>120 minuta</strong></p>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2025 · E-Learning Portal · <strong style="color:#266EFF;">AIK Group</strong></p>
+            <p><em data-sr="E-learning rešenje za interno znanje i razvoj" data-en="E-learning solution for internal knowledge and development" data-sl="E-učno rešitev za interno znanje in razvoj">E-learning rešenje za interno znanje i razvoj</em></p>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Show/hide scroll to top button
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.pageYOffset > 300) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        // Language toggle
+        const languages = ['sr', 'en', 'sl'];
+        const langNames = { 'sr': 'SRB', 'en': 'ENG', 'sl': 'SLO' };
+        let currentLangIndex = 0;
+        
+        function toggleLanguage() {
+            currentLangIndex = (currentLangIndex + 1) % languages.length;
+            const currentLang = languages[currentLangIndex];
+            
+            document.getElementById('langText').textContent = langNames[currentLang];
+            
+            document.querySelectorAll('[data-sr]').forEach(element => {
+                const text = element.getAttribute('data-' + currentLang);
+                if (text) {
+                    // Check if element has HTML content flag
+                    if (element.getAttribute('data-html') === 'true') {
+                        element.innerHTML = text;
+                    } else {
+                        element.textContent = text;
+                    }
+                }
+            });
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            const themeIcon = document.querySelector('#themeToggle i');
+            themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Load saved theme
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                const themeIcon = document.querySelector('#themeToggle i');
+                themeIcon.className = 'fas fa-sun';
+            }
+        });
+    </script>
+</body>
+</html>
