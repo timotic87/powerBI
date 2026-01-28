@@ -191,34 +191,103 @@
             border-color: var(--mid-blue);
         }
 
-        /* === BACK BUTTON === */
-        .back-btn {
+        /* === BURGER MENU === */
+        .burger-btn {
+            display: none;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 20px;
             transition: all 0.3s ease;
-            font-family: 'Roboto', sans-serif;
-            min-width: 140px;
-            justify-content: center;
         }
 
-        .back-btn:hover {
+        .burger-btn:hover {
             background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
             transform: translateY(-1px);
-            color: white;
         }
 
-        .back-btn i {
-            font-size: 14px;
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80%;
+            max-width: 300px;
+            height: 100%;
+            background: var(--bg-primary);
+            padding: 2rem;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-nav.active .mobile-nav-content {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .mobile-nav h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            margin-top: 2rem;
+            font-weight: 600;
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .mobile-nav li {
+            margin: 0.5rem 0;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 0.625rem 1.25rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-nav a:hover {
+            background: var(--primary-color);
+            color: white;
         }
 
         /* === NAVIGATION === */
@@ -547,8 +616,14 @@
                 font-size: 15px;
             }
 
+            .burger-btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
             .nav {
-                padding: 1rem 1.5rem;
+                display: none;
             }
 
             h2 {
@@ -606,17 +681,16 @@
         <!-- Header -->
         <div class="header">
             <div class="header-logo">
-                <img src="images/power-bi-logo.png" alt="Power BI Logo">
+                <img src="power-bi-logo.png" alt="Power BI Logo">
             </div>
             <div class="header-content">
                 <h1 data-sr="Microsoft Power BI" data-en="Microsoft Power BI" data-sl="Microsoft Power BI">Microsoft Power BI</h1>
                 <p data-sr="Praktično uputstvo za vizualizaciju i analizu podataka" data-en="Practical guide for data visualization and analysis" data-sl="Praktični vodič za vizualizacijo in analizo podatkov">Praktično uputstvo za vizualizaciju i analizu podataka</p>
             </div>
             <div class="header-controls">
-                <a href="../index.html" class="back-btn">
-                    <i class="fas fa-arrow-left"></i>
-                    <span data-sr="Nazad na Meni" data-en="Back to Menu" data-sl="Nazaj na Meni">Nazad na Meni</span>
-                </a>
+                <button class="burger-btn" id="burgerBtn" onclick="toggleMobileNav()">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <button class="toggle-btn" id="langToggle" onclick="toggleLanguage()">
                     <i class="fas fa-globe"></i>
                     <span id="langText">SRB</span>
@@ -642,6 +716,28 @@
                 <li><a href="#deljenje" data-sr="Deljenje izveštaja" data-en="Sharing Reports" data-sl="Deljenje poročil">Deljenje izveštaja</a></li>
                 <li><a href="#zakljucak" data-sr="Zaključak" data-en="Conclusion" data-sl="Zaključek">Zaključak</a></li>
             </ul>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobileNav" onclick="closeMobileNavOnBackdrop(event)">
+            <div class="mobile-nav-content">
+                <button class="mobile-nav-close" onclick="toggleMobileNav()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h3 data-sr="Brzi pristup" data-en="Quick Access" data-sl="Hiter dostop">Brzi pristup</h3>
+                <ul>
+                    <li><a href="#uvod" onclick="toggleMobileNav()" data-sr="Uvod" data-en="Introduction" data-sl="Uvod">Uvod</a></li>
+                    <li><a href="#staje" onclick="toggleMobileNav()" data-sr="Šta je Power BI" data-en="What is Power BI" data-sl="Kaj je Power BI">Šta je Power BI</a></li>
+                    <li><a href="#komponente" onclick="toggleMobileNav()" data-sr="Komponente" data-en="Components" data-sl="Komponente">Komponente</a></li>
+                    <li><a href="#instalacija" onclick="toggleMobileNav()" data-sr="Instalacija" data-en="Installation" data-sl="Namestitev">Instalacija</a></li>
+                    <li><a href="#ucitavanje" onclick="toggleMobileNav()" data-sr="Učitavanje podataka" data-en="Loading Data" data-sl="Nalaganje podatkov">Učitavanje podataka</a></li>
+                    <li><a href="#power-query" onclick="toggleMobileNav()" data-sr="Power Query" data-en="Power Query" data-sl="Power Query">Power Query</a></li>
+                    <li><a href="#modelovanje" onclick="toggleMobileNav()" data-sr="Modelovanje" data-en="Modeling" data-sl="Modeliranje">Modelovanje</a></li>
+                    <li><a href="#vizualizacije" onclick="toggleMobileNav()" data-sr="Vizualizacije" data-en="Visualizations" data-sl="Vizualizacije">Vizualizacije</a></li>
+                    <li><a href="#deljenje" onclick="toggleMobileNav()" data-sr="Deljenje izveštaja" data-en="Sharing Reports" data-sl="Deljenje poročil">Deljenje izveštaja</a></li>
+                    <li><a href="#zakljucak" onclick="toggleMobileNav()" data-sr="Zaključak" data-en="Conclusion" data-sl="Zaključek">Zaključak</a></li>
+                </ul>
+            </div>
         </div>
 
         <!-- Content -->
@@ -675,8 +771,8 @@
                     Ključne mogućnosti Power BI alata
                 </h3>
                 <p>
-                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/blank.png" target="_blank">
-                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/blank.png" alt="Interaktivni Power BI dashboard" style="max-width:100%;">
+                    <a href="blank.png" target="_blank">
+                        <img src="blank.png" alt="Interaktivni Power BI dashboard" style="max-width:100%;">
                     </a>
                 </p>
 
@@ -754,8 +850,8 @@
                     Kreiranje vizualizacija bez programiranja
                 </h4>
                 <p>
-                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/report.png" target="_blank">
-                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/report.png" alt="Interaktivni Power BI dashboard" style="max-width:100%;">
+                    <a href="report.png" target="_blank">
+                        <img src="report.png" alt="Interaktivni Power BI dashboard" style="max-width:100%;">
                     </a>
                 </p>
                 <p data-sr="Power BI nudi WYSIWYG (What You See Is What You Get) editor koji omogućava korisnicima da jednostavnim drag & drop pristupom kreiraju profesionalne grafikone, tabele, mape i interaktivne dashboarde, bez potrebe za programerskim znanjem."
@@ -953,8 +1049,8 @@
             </div>
                 
                 <p>
-                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/power-bi.png" target="_blank">
-                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/power-bi.png" alt="Interaktivni Power BI dashboard koji radi na iOS-u i Windows-u" style="max-width:100%;">
+                    <a href="power-bi.png" target="_blank">
+                        <img src="power-bi.png" alt="Interaktivni Power BI dashboard koji radi na iOS-u i Windows-u" style="max-width:100%;">
                     </a>
                 </p>
 
@@ -1010,8 +1106,8 @@
             </ol>
 
                 <p>
-                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/download.png" target="_blank">
-                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/download.png" alt="Interaktivni Power BI dashboard koji radi na iOS-u i Windows-u" style="max-width:100%;">
+                    <a href="download.png" target="_blank">
+                        <img src="download.png" alt="Interaktivni Power BI dashboard koji radi na iOS-u i Windows-u" style="max-width:100%;">
                     </a>
                 </p>
 
@@ -1039,8 +1135,8 @@
                 </ol>
 
                 <p>
-                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/getdata.png" target="_blank">
-                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/getdata.png" alt="Power BI iz Oracle" style="max-width:100%;"></a>
+                    <a href="getdata.png" target="_blank">
+                        <img src="getdata.png" alt="Power BI iz Oracle" style="max-width:100%;"></a>
                         <p data-sr="→ Postupak za učitavanje podataka u Power BI iz Oracle baze podataka." 
                         data-en="→ Procedure for loading data into Power BI from an Oracle database." 
                         data-sl="→ Postopek za nalaganje podatkov v Power BI iz podatkovne baze Oracle.">
@@ -1048,8 +1144,8 @@
                 </p>
 
                 <p>
-                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/aecprod.png" target="_blank">
-                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/aecprod.png" alt="Database" style="max-width:100%;"></a>
+                    <a href="aecprod.png" target="_blank">
+                        <img src="aecprod.png" alt="Database" style="max-width:100%;"></a>
                         <p data-sr="→ Izvršite povezivanje sa bazom podataka, pri čemu se u ovom primeru koristi Oracle instanca AEC_TEST." 
                         data-en="→ Establish a connection to the database, using the Oracle instance AEC_TEST in this example." 
                         data-sl="→ Vzpostavite povezavo s podatkovno bazo, pri čemer je v tem primeru uporabljena Oracle instanca AEC_TEST.">
@@ -1057,8 +1153,8 @@
                 </p>
 
                  <p>
-                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/userpass.png" target="_blank">
-                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/userpass.png" alt="User & password" style="max-width:100%;"></a>
+                    <a href="userpass.png" target="_blank">
+                        <img src="userpass.png" alt="User & password" style="max-width:100%;"></a>
                         <p data-sr="→ U levom meniju izaberite opciju Database, a zatim unesite korisničko ime i lozinku kako biste povezali bazu podataka sa Power BI-jem i omogućili korišćenje podataka iz odabrane baze." 
                         data-en="→ From the left-hand menu, select Database, then enter your username and password to connect the database with Power BI and enable the use of data from the selected database." 
                         data-sl="→ V levem meniju izberite možnost Database, nato vnesite uporabniško ime in geslo, da povežete podatkovno bazo s Power BI-jem in omogočite uporabo podatkov iz izbrane baze.">
@@ -1088,8 +1184,8 @@
                 </ul>
 
                 <p>
-                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/navigator.png" target="_blank">
-                        <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/navigator.png" alt="Interaktivni Power BI dashboard koji radi na iOS-u i Windows-u" style="max-width:100%;"></a>
+                    <a href="navigator.png" target="_blank">
+                        <img src="navigator.png" alt="Interaktivni Power BI dashboard koji radi na iOS-u i Windows-u" style="max-width:100%;"></a>
                 </p>
 
                 <a href="https://www.youtube.com/watch?v=dyL-03UFKKw" target="_blank" class="video-box" style="text-decoration: none;">
@@ -1151,8 +1247,8 @@
                     data-html="true">
                     Kada završite sa transformacijama i čišćenjem podataka, potrebno je da primenite sve promene i učitate podatke u model. Kliknite na <strong>Close & Apply</strong> kako biste sačuvali sve promene i učitali očišćene podatke u Power BI model za dalju analizu i vizualizaciju.
                 
-                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/powerquery.png" target="_blank">
-                    <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/powerquery.png" alt="Powerquery" style="max-width:100%;"></a>
+                    <a href="powerquery.png" target="_blank">
+                    <img src="powerquery.png" alt="Powerquery" style="max-width:100%;"></a>
                 </p>
 
 
@@ -1216,8 +1312,8 @@
                         Povezane <strong>dimenzione tabele</strong> koje daju kontekst podacima (npr. vreme, kategorije, proizvodi ili organizacione jedinice)
                     </li>
                 </ul>
-                <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/modelovanje.png" target="_blank">
-                    <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/modelovanje.png" alt="modelovanje" style="max-width:100%;"></a>
+                <a href="modelovanje.png" target="_blank">
+                    <img src="modelovanje.png" alt="modelovanje" style="max-width:100%;"></a>
 
                 <p 
                     data-sr="Ovakav model obezbeđuje bolju preglednost podataka, jednostavnije analize i bolje performanse u Power BI-ju." 
@@ -1436,8 +1532,8 @@
                         Dobro dizajnirane vizualizacije omogućavaju brže donošenje odluka i bolje razumevanje podataka.
                     </p>
 
-                    <a href="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/vizual.png" target="_blank">
-                    <img src="C:\Users\luka.kecman\Desktop\learning-portal\learning-portal\courses\images/vizual.png" alt="modelovanje" style="max-width:100%;"></a>
+                    <a href="vizual.png" target="_blank">
+                    <img src="vizual.png" alt="modelovanje" style="max-width:100%;"></a>
 
                     <a href="https://www.youtube.com/watch?v=Rpgo3J44hTE" target="_blank" class="video-box" style="text-decoration: none;">
                         <div class="icon"><i class="fab fa-youtube"></i></div>
@@ -1689,6 +1785,19 @@
                 themeIcon.className = 'fas fa-sun';
             }
         });
+
+        // Mobile navigation toggle
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('active');
+        }
+
+        // Close mobile nav when clicking backdrop
+        function closeMobileNavOnBackdrop(event) {
+            if (event.target.id === 'mobileNav') {
+                toggleMobileNav();
+            }
+        }
     </script>
 </body>
 </html>
